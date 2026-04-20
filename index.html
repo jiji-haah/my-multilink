@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>청년경매</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:       #F8F5F0;
+      --surface:  #FFFFFF;
+      --border:   #E6E0D6;
+      --ink:      #1C1814;
+      --ink-2:    #7A7166;
+      --ink-3:    #B5AFA7;
+      --kakao:    #FEE500;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Noto Sans KR', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 0 20px 88px;
+    }
+
+
+    /* ───────────────────────────────
+       ① PROFILE
+    ─────────────────────────────── */
+    .profile {
+      padding: 60px 0 36px;
+      text-align: center;
+    }
+
+    .avatar-wrap {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      margin: 0 auto 22px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-3);
+      font-size: 13px;
+      letter-spacing: 0;
+    }
+
+    /* 사진 교체 시: <img src="[사진 URL]" alt="" style="width:100%;height:100%;object-fit:cover;"> */
+    .avatar-wrap::after { content: 'PHOTO'; font-size: 9px; letter-spacing: 2px; }
+
+    .name-sub {
+      font-size: 10.5px;
+      letter-spacing: 3px;
+      color: var(--ink-3);
+      margin-bottom: 10px;
+    }
+
+    .brand-name {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.4px;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .bio {
+      font-size: 13.5px;
+      color: var(--ink-2);
+      line-height: 1.85;
+      font-weight: 300;
+      max-width: 280px;
+      margin: 0 auto 32px;
+    }
+
+    /* Stats Strip */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+    }
+
+    .stat {
+      padding: 16px 6px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-n {
+      display: block;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .stat-l {
+      font-size: 9.5px;
+      color: var(--ink-3);
+      letter-spacing: 0.3px;
+      line-height: 1.3;
+    }
+
+
+    /* ───────────────────────────────
+       ② KAKAO CTA
+    ─────────────────────────────── */
+    .kakao-wrap { margin-top: 10px; }
+
+    .kakao-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--kakao);
+      padding: 26px 24px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: filter 0.15s;
+    }
+
+    .kakao-btn:hover { filter: brightness(0.95); }
+
+    .kakao-inner { display: flex; align-items: center; gap: 16px; }
+
+    .kakao-bubble {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* KakaoTalk bubble SVG */
+    .kakao-bubble svg { width: 22px; height: 22px; }
+
+    .kakao-txt {}
+
+    .kakao-eyebrow {
+      font-size: 9.5px;
+      letter-spacing: 2.5px;
+      opacity: 0.45;
+      margin-bottom: 5px;
+    }
+
+    .kakao-main {
+      font-size: 15.5px;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .kakao-hint {
+      font-size: 11.5px;
+      opacity: 0.55;
+    }
+
+    .kakao-arr { font-size: 18px; opacity: 0.35; }
+
+
+    /* ───────────────────────────────
+       ③ FREE MATERIAL
+    ─────────────────────────────── */
+    .free-wrap { margin-top: 10px; }
+
+    .free-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px 24px 24px;
+    }
+
+    .free-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .free-badge {
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      color: var(--ink-3);
+      border: 1px solid var(--border);
+      padding: 5px 9px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .free-heading {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 16.5px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .free-desc {
+      font-size: 12.5px;
+      color: var(--ink-2);
+      line-height: 1.75;
+      font-weight: 300;
+      margin-bottom: 20px;
+    }
+
+    .free-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin-bottom: 22px;
+      padding-left: 2px;
+    }
+
+    .free-list li {
+      font-size: 12.5px;
+      color: var(--ink-2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .free-list li::before {
+      content: '';
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--ink-3);
+      flex-shrink: 0;
+    }
+
+    .free-dl {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 20px;
+      background: var(--ink);
+      color: var(--bg);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+      transition: opacity 0.15s;
+    }
+
+    .free-dl:hover { opacity: 0.82; }
+    .free-dl span:last-child { opacity: 0.45; font-size: 15px; }
+
+
+    /* ───────────────────────────────
+       ④ LINKS
+    ─────────────────────────────── */
+    .links { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 17px 22px 17px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--ink);
+      transition: border-color 0.15s;
+    }
+
+    .link-item:hover { border-color: var(--ink); }
+
+    .link-left { display: flex; align-items: center; gap: 14px; }
+
+    .link-dot {
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      letter-spacing: 0;
+      color: var(--ink-3);
+      flex-shrink: 0;
+    }
+
+    .link-info {}
+
+    .link-tag {
+      font-size: 9.5px;
+      letter-spacing: 2px;
+      color: var(--ink-3);
+      margin-bottom: 4px;
+    }
+
+    .link-label { font-size: 14px; font-weight: 400; }
+
+    .link-arr { font-size: 13px; color: var(--ink-3); }
+
+
+    /* ───────────────────────────────
+       FOOTER
+    ─────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding-top: 56px;
+      font-size: 10.5px;
+      letter-spacing: 2.5px;
+      color: var(--ink-3);
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ① Profile ──────────────────────── -->
+  <section class="profile">
+
+    <div class="avatar-wrap">
+      <!-- 사진 교체 시 이 줄 추가: <img src="[프로필 사진 URL]" alt="청년경매"> -->
+    </div>
+
+    <p class="name-sub">경스터 &amp; 완베스트</p>
+    <h1 class="brand-name">청년경매</h1>
+
+    <p class="bio">
+      시드가 많지 않아도 괜찮아요.<br>
+      직장 다니면서도 경매로<br>
+      자산을 쌓을 수 있어요.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-n">500명+</span>
+        <span class="stat-l">수강생</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n">50건+</span>
+        <span class="stat-l">낙찰</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n">15억+</span>
+        <span class="stat-l">수익</span>
+      </div>
+      <div class="stat">
+        <span class="stat-n">99%+</span>
+        <span class="stat-l">만족도</span>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ② Kakao CTA ─────────────────────── -->
+  <div class="kakao-wrap">
+    <a href="http://pf.kakao.com/_uzQIG" class="kakao-btn" target="_blank" rel="noopener">
+      <div class="kakao-inner">
+        <div class="kakao-bubble">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3C6.477 3 2 6.701 2 11.25c0 2.91 1.676 5.47 4.2 7.02L5.25 21l3.43-1.71C9.55 19.74 10.76 20 12 20c5.523 0 10-3.701 10-8.25C22 6.701 17.523 3 12 3z" fill="rgba(0,0,0,0.55)"/>
+          </svg>
+        </div>
+        <div class="kakao-txt">
+          <p class="kakao-eyebrow">CONTACT</p>
+          <p class="kakao-main">카카오톡으로 편하게 물어보세요</p>
+          <p class="kakao-hint">강의, 경매 뭐든요</p>
+        </div>
+      </div>
+      <span class="kakao-arr">→</span>
+    </a>
+  </div>
+
+
+  <!-- ③ Free Material ─────────────────── -->
+  <div class="free-wrap">
+    <div class="free-card">
+
+      <div class="free-top">
+        <h2 class="free-heading">청년경매 무료 자료실</h2>
+        <span class="free-badge">FREE</span>
+      </div>
+
+      <p class="free-desc">
+        경매 시작 전에 꼭 필요한 자료들을<br>무료로 드리고 있어요.
+      </p>
+
+      <ul class="free-list">
+        <li>부동산 경매 유료 전자책 다운로드</li>
+        <li>경매 초보자도 입찰할 수 있는 물건 List</li>
+        <li>1억 모으는 가계부 (청년경매 버전)</li>
+      </ul>
+
+      <a href="https://www.auction333.co.kr/41" class="free-dl" target="_blank" rel="noopener">
+        <span>무료로 받아보기</span>
+        <span>↓</span>
+      </a>
+
+    </div>
+  </div>
+
+
+  <!-- ④ Links ─────────────────────────── -->
+  <div class="links">
+
+    <a href="https://blog.naver.com/fredom_mini92" class="link-item" target="_blank" rel="noopener">
+      <div class="link-left">
+        <div class="link-dot">B</div>
+        <div class="link-info">
+          <p class="link-tag">BLOG</p>
+          <p class="link-label">블로그 · 투자 기록</p>
+        </div>
+      </div>
+      <span class="link-arr">→</span>
+    </a>
+
+    <a href="[인스타그램 링크]" class="link-item" target="_blank" rel="noopener">
+      <div class="link-left">
+        <div class="link-dot">IG</div>
+        <div class="link-info">
+          <p class="link-tag">INSTAGRAM</p>
+          <p class="link-label">인스타그램</p>
+        </div>
+      </div>
+      <span class="link-arr">→</span>
+    </a>
+
+    <a href="[유튜브 링크]" class="link-item" target="_blank" rel="noopener">
+      <div class="link-left">
+        <div class="link-dot">YT</div>
+        <div class="link-info">
+          <p class="link-tag">YOUTUBE</p>
+          <p class="link-label">유튜브 채널</p>
+        </div>
+      </div>
+      <span class="link-arr">→</span>
+    </a>
+
+    <a href="https://www.auction333.co.kr/29" class="link-item" target="_blank" rel="noopener">
+      <div class="link-left">
+        <div class="link-dot">★</div>
+        <div class="link-info">
+          <p class="link-tag">REVIEW</p>
+          <p class="link-label">수강 후기 · 강의 보기</p>
+        </div>
+      </div>
+      <span class="link-arr">→</span>
+    </a>
+
+  </div>
+
+
+  <!-- Footer ──────────────────────────── -->
+  <footer class="footer">
+    경매로 건물주되는 그날까지
+  </footer>
+
+</div>
+</body>
+</html>
