@@ -464,6 +464,25 @@
       align-items: center;
       justify-content: center;
       font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .icon-circle img {
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
+
+    .icon-circle.ig {
+      background: linear-gradient(135deg, #833AB4, #FD1D1D, #FCAF45);
+    }
+
+    .icon-circle.yt {
+      background: #FF0000;
+    }
+
+    .icon-circle.th {
+      background: #000000;
     }
 
     .icon-label {
@@ -620,15 +639,21 @@
           <span class="icon-label">수강생 후기</span>
         </a>
         <a href="https://www.instagram.com/biddy_auction/" class="icon-item" target="_blank" rel="noopener">
-          <div class="icon-circle">📷</div>
+          <div class="icon-circle ig">
+            <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
+          </div>
           <span class="icon-label">인스타그램</span>
         </a>
         <a href="https://www.youtube.com/@%EC%B2%AD%EB%85%84%EA%B2%BD%EB%A7%A4" class="icon-item" target="_blank" rel="noopener">
-          <div class="icon-circle">▶️</div>
+          <div class="icon-circle yt">
+            <img src="https://cdn.simpleicons.org/youtube/ffffff" alt="YouTube">
+          </div>
           <span class="icon-label">유튜브</span>
         </a>
         <a href="https://www.threads.com/@biddy_auction?xmt=AQF0_ZbjYfUQMLnjSoVfSIxObBWmnG-aISYF_04zZnW4ipU" class="icon-item" target="_blank" rel="noopener">
-          <div class="icon-circle">🧵</div>
+          <div class="icon-circle th">
+            <img src="https://cdn.simpleicons.org/threads/ffffff" alt="Threads">
+          </div>
           <span class="icon-label">스레드</span>
         </a>
       </div>
