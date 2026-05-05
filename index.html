@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>경완이들 | 청년경매</title>
+  <meta name="description" content="직장인 부동산 투자 8년차, 경매로 연봉 밖의 돈을 만드는 법을 나눕니다">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,11 +27,14 @@
 
       --kakao:   #FEE500;
       --sh:      rgba(44,10,20,0.08);
+
+      --spring:  cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo',
-                   'Noto Sans KR', sans-serif;
+      font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
       background: var(--bg);
       color: var(--ink);
       min-height: 100svh;
@@ -39,14 +44,42 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* 알갱이 텍스처 — 고급스러운 질감 */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      pointer-events: none;
+      opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 120px 120px;
+    }
+
     .page {
       width: 100%;
       max-width: 430px;
     }
 
+    /* 스크롤 등장 애니메이션 */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(1.5rem); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(1.5rem);
+      transition: opacity 0.65s var(--spring), transform 0.65s var(--spring);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
 
     /* ══════════════════════════════
-       ① PROFILE — 딥 버건디 헤더
+       ① PROFILE 헤더
     ══════════════════════════════ */
 
     .hero {
@@ -57,6 +90,33 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 메쉬 그라디언트 장식 */
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244,63,94,0.22) 0%, transparent 70%);
+      top: -120px; right: -80px;
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244,63,94,0.14) 0%, transparent 70%);
+      bottom: -60px; left: -40px;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-7px); }
     }
 
     .avatar {
@@ -66,7 +126,13 @@
       overflow: hidden;
       background: var(--hero-2);
       margin-bottom: 16px;
-      box-shadow: 0 0 0 3px var(--hero), 0 0 0 5px rgba(244,63,94,0.4);
+      box-shadow:
+        0 0 0 3px var(--hero),
+        0 0 0 5px rgba(244,63,94,0.4),
+        0 12px 36px rgba(244,63,94,0.25);
+      animation: float 4s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
     }
 
     .avatar img {
@@ -82,6 +148,11 @@
       color: var(--accent);
       letter-spacing: 0.02em;
       margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .profile-name {
@@ -91,6 +162,9 @@
       color: #FFFFFF;
       line-height: 1.1;
       margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+      word-break: keep-all;
     }
 
     .profile-bio {
@@ -99,39 +173,42 @@
       color: rgba(255,255,255,0.52);
       line-height: 1.75;
       word-break: keep-all;
+      position: relative;
+      z-index: 1;
     }
 
-    /* Stats */
+    /* 통계 — 글래스(유리) 효과 */
     .stats {
       width: 100%;
-      background: var(--surface);
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-radius: 20px;
       margin-top: 24px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       overflow: hidden;
+      position: relative;
+      z-index: 1;
     }
 
-    .stat {
-      padding: 18px 8px;
-      text-align: center;
-    }
-
-    .stat + .stat { border-left: 1px solid var(--border); }
+    .stat { padding: 18px 8px; text-align: center; }
+    .stat + .stat { border-left: 1px solid rgba(255,255,255,0.1); }
 
     .stat-n {
       display: block;
       font-size: 21px;
       font-weight: 800;
       letter-spacing: -0.05em;
-      color: var(--ink);
+      color: #FFFFFF;
     }
-
     .stat-l {
       display: block;
       font-size: 11px;
       font-weight: 500;
-      color: var(--sub);
+      color: rgba(255,255,255,0.5);
       margin-top: 4px;
     }
 
@@ -140,13 +217,9 @@
        BODY
     ══════════════════════════════ */
 
-    .body {
-      padding: 0 20px;
-    }
+    .body { padding: 0 20px; }
 
-    .section {
-      margin-top: 28px;
-    }
+    .section { margin-top: 28px; }
 
     .section-title {
       font-size: 12px;
@@ -165,20 +238,20 @@
       display: block;
       background: var(--kakao);
       border-radius: 20px;
-      padding: 20px 20px;
+      padding: 20px;
       text-decoration: none;
-      transition: filter 0.12s, transform 0.12s;
+      transition: filter 0.4s var(--spring), transform 0.4s var(--spring), box-shadow 0.4s var(--spring);
       -webkit-tap-highlight-color: transparent;
     }
-
     .kakao-btn:hover {
       filter: brightness(0.96);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(254,229,0,0.35);
     }
-
     .kakao-btn:active {
-      transform: translateY(0);
+      transform: translateY(0) scale(0.98);
       filter: brightness(0.92);
+      box-shadow: none;
     }
 
     .kakao-row {
@@ -187,10 +260,17 @@
       gap: 12px;
     }
 
-    .kakao-emoji {
-      font-size: 30px;
-      line-height: 1;
+    .kakao-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(25,31,40,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
+      font-size: 22px;
+      color: var(--ink);
     }
 
     .kakao-copy { flex: 1; }
@@ -202,7 +282,6 @@
       letter-spacing: -0.04em;
       color: var(--ink);
     }
-
     .kakao-sub {
       display: block;
       font-size: 13px;
@@ -212,10 +291,19 @@
     }
 
     .kakao-arrow {
-      font-size: 22px;
-      color: rgba(25,31,40,0.28);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(25,31,40,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
+      font-size: 15px;
+      color: rgba(25,31,40,0.45);
+      transition: transform 0.4s var(--spring);
     }
+    .kakao-btn:hover .kakao-arrow { transform: translateX(3px); }
 
 
     /* ══════════════════════════════
@@ -237,17 +325,17 @@
       border-radius: 16px;
       text-decoration: none;
       color: var(--ink);
-      transition: transform 0.12s, box-shadow 0.12s;
+      border: 1px solid transparent;
+      transition: transform 0.4s var(--spring), box-shadow 0.4s var(--spring), border-color 0.3s;
       -webkit-tap-highlight-color: transparent;
     }
-
     .card:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 24px var(--sh);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px var(--sh);
+      border-color: rgba(244,63,94,0.1);
     }
-
     .card:active {
-      transform: translateY(0);
+      transform: translateY(0) scale(0.98);
       box-shadow: none;
     }
 
@@ -260,6 +348,7 @@
       align-items: center;
       justify-content: center;
       font-size: 20px;
+      color: var(--acc-dk);
       flex-shrink: 0;
     }
 
@@ -273,16 +362,18 @@
       word-break: keep-all;
       color: var(--ink);
     }
-
     .card-sub {
       font-size: 12px;
       font-weight: 400;
       color: var(--sub);
       margin-top: 3px;
+      word-break: keep-all;
     }
 
     .card-badge {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
       font-size: 10px;
       font-weight: 700;
       color: var(--acc-dk);
@@ -293,10 +384,23 @@
     }
 
     .card-arrow {
-      font-size: 18px;
-      color: var(--faint);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
+      font-size: 14px;
+      color: var(--faint);
+      transition: transform 0.4s var(--spring), color 0.3s;
     }
+    .card:hover .card-arrow {
+      transform: translateX(2px);
+      color: var(--acc-dk);
+    }
+
 
     /* ── 세미나 카드 ── */
     .seminar-card {
@@ -306,17 +410,17 @@
       overflow: hidden;
       text-decoration: none;
       color: var(--ink);
-      transition: transform 0.13s, box-shadow 0.13s;
+      border: 1px solid var(--border);
+      transition: transform 0.4s var(--spring), box-shadow 0.4s var(--spring), border-color 0.3s;
       -webkit-tap-highlight-color: transparent;
     }
-
     .seminar-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 36px rgba(44,10,20,0.16);
+      transform: translateY(-3px);
+      box-shadow: 0 14px 44px rgba(44,10,20,0.18);
+      border-color: rgba(244,63,94,0.22);
     }
-
     .seminar-card:active {
-      transform: translateY(0);
+      transform: translateY(0) scale(0.99);
       box-shadow: none;
     }
 
@@ -331,23 +435,20 @@
       position: relative;
       overflow: hidden;
     }
-
-    /* 배경 장식 원 */
     .sem-visual::before {
       content: '';
       position: absolute;
       width: 260px; height: 260px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.04);
+      background: radial-gradient(circle, rgba(244,63,94,0.18) 0%, transparent 70%);
       top: -80px; right: -60px;
     }
-
     .sem-visual::after {
       content: '';
       position: absolute;
       width: 180px; height: 180px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.04);
+      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
       bottom: -60px; left: -40px;
     }
 
@@ -360,14 +461,27 @@
       border-radius: 100px;
       padding: 4px 12px;
       letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 1;
+    }
+
+    @keyframes semFloat {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-5px); }
     }
 
     .sem-icon {
-      font-size: 48px;
       line-height: 1;
       margin-bottom: 8px;
       position: relative;
       z-index: 1;
+      color: rgba(255,255,255,0.92);
+      animation: semFloat 3.5s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .sem-visual-title {
@@ -377,11 +491,10 @@
       letter-spacing: -0.03em;
       position: relative;
       z-index: 1;
+      word-break: keep-all;
     }
 
-    .sem-body {
-      padding: 18px 20px 20px;
-    }
+    .sem-body { padding: 18px 20px 20px; }
 
     .sem-title {
       font-size: 17px;
@@ -389,8 +502,8 @@
       letter-spacing: -0.04em;
       color: var(--ink);
       margin-bottom: 5px;
+      word-break: keep-all;
     }
-
     .sem-desc {
       font-size: 13px;
       font-weight: 400;
@@ -405,7 +518,9 @@
       font-weight: 600;
       color: var(--acc-dk);
       background: var(--acc-lt);
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       padding: 5px 12px;
       border-radius: 100px;
       margin-bottom: 14px;
@@ -414,15 +529,31 @@
     .sem-cta {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       background: var(--hero);
       color: #fff;
       font-size: 13px;
       font-weight: 700;
       letter-spacing: -0.02em;
-      padding: 10px 18px;
+      padding: 10px 16px 10px 18px;
       border-radius: 100px;
+      transition: background 0.3s, transform 0.4s var(--spring);
     }
+    .seminar-card:hover .sem-cta { background: var(--acc-dk); }
+
+    .sem-cta-arrow {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      transition: transform 0.4s var(--spring);
+    }
+    .seminar-card:hover .sem-cta-arrow { transform: translateX(2px); }
+
 
     /* ── 아이콘 그리드 ── */
     .icon-grid {
@@ -441,17 +572,15 @@
       border-radius: 16px;
       text-decoration: none;
       color: var(--ink);
-      transition: transform 0.12s, box-shadow 0.12s;
+      transition: transform 0.4s var(--spring), box-shadow 0.4s var(--spring);
       -webkit-tap-highlight-color: transparent;
     }
-
     .icon-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px var(--sh);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px var(--sh);
     }
-
     .icon-item:active {
-      transform: translateY(0);
+      transform: translateY(0) scale(0.96);
       box-shadow: none;
     }
 
@@ -463,31 +592,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
       flex-shrink: 0;
+      font-size: 22px;
     }
-
     .icon-circle img {
       width: 22px;
       height: 22px;
       display: block;
     }
-
-    .icon-circle.ig {
-      background: linear-gradient(135deg, #833AB4, #FD1D1D, #FCAF45);
-    }
-
-    .icon-circle.yt {
-      background: #FF0000;
-    }
-
-    .icon-circle.th {
-      background: #000000;
-    }
-
-    .icon-circle.naver {
-      background: #03C75A;
-    }
+    .icon-circle.ig     { background: linear-gradient(135deg, #833AB4, #FD1D1D, #FCAF45); }
+    .icon-circle.yt     { background: #FF0000; }
+    .icon-circle.th     { background: #0f0f0f; }
+    .icon-circle.naver  { background: #03C75A; }
+    .icon-circle.review { background: linear-gradient(135deg, #FEE500, #FF9500); }
 
     .icon-label {
       font-size: 11px;
@@ -520,9 +637,12 @@
   <!-- ① PROFILE -->
   <section class="hero">
     <div class="avatar">
-      <img src="프로필배경.jpg" alt="경완이들 프로필">
+      <img src="프로필배경.jpg" alt="경완이들 프로필" loading="eager" decoding="async">
     </div>
-    <p class="brand-tag">청년경매</p>
+    <p class="brand-tag">
+      <iconify-icon icon="solar:home-2-bold" style="font-size:13px;"></iconify-icon>
+      청년경매
+    </p>
     <h1 class="profile-name">경완이들</h1>
     <p class="profile-bio">
       직장인 부동산 투자 8년차<br>
@@ -546,119 +666,167 @@
 
   <div class="body">
 
-    <!-- 세미나 -->
-    <div class="section">
-      <p class="section-title">무료 세미나</p>
-      <a href="https://auction333.liveklass.com/classes/293821" class="seminar-card" target="_blank" rel="noopener">
+    <!-- 기본반 신청 -->
+    <div class="section fade-up">
+      <p class="section-title">강의 신청</p>
+      <a href="https://m.blog.naver.com/fredom_mini92/223274086676" class="seminar-card" target="_blank" rel="noopener">
         <div class="sem-visual">
-          <span class="sem-badge">🎓 무료</span>
-          <span class="sem-icon">🏠</span>
-          <span class="sem-visual-title">청년경매 온라인 세미나</span>
+          <span class="sem-badge">
+            <iconify-icon icon="solar:fire-bold" style="font-size:11px;"></iconify-icon>
+            모집 중
+          </span>
+          <span class="sem-icon">
+            <iconify-icon icon="solar:diploma-bold" style="font-size:48px;"></iconify-icon>
+          </span>
+          <span class="sem-visual-title">청년경매 기본반</span>
         </div>
         <div class="sem-body">
-          <h3 class="sem-title">청년경매 온라인 세미나</h3>
-          <p class="sem-desc">경매, 어디서부터 시작해야 할지 모르겠다면?<br>전문가가 직접 알려드립니다</p>
-          <p class="sem-date">📅 &nbsp;2026년 4월 29일 (수) 오후 8시</p>
-          <span class="sem-cta">무료로 신청하기 →</span>
+          <h3 class="sem-title">청년경매 기본반 신청하기</h3>
+          <p class="sem-desc">세미나 수강 후 다음 단계가 궁금하다면?<br>경매의 처음부터 낙찰까지, 직접 알려드립니다</p>
+          <p class="sem-date">
+            <iconify-icon icon="solar:star-bold"></iconify-icon>
+            지금 바로 신청 가능
+          </p>
+          <span class="sem-cta">
+            신청하러 가기
+            <span class="sem-cta-arrow">
+              <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+            </span>
+          </span>
         </div>
       </a>
     </div>
 
     <!-- ② KAKAO CTA -->
-    <div class="section">
+    <div class="section fade-up">
       <p class="section-title">문의하기</p>
       <a href="https://pf.kakao.com/_ltLin" class="kakao-btn" target="_blank" rel="noopener">
         <div class="kakao-row">
-          <span class="kakao-emoji">💬</span>
+          <div class="kakao-icon-wrap">
+            <iconify-icon icon="solar:chat-round-bold"></iconify-icon>
+          </div>
           <span class="kakao-copy">
             <span class="kakao-title">카카오톡으로 문의하기</span>
             <span class="kakao-sub">궁금한 점, 편하게 물어보세요</span>
           </span>
-          <span class="kakao-arrow">›</span>
+          <div class="kakao-arrow">
+            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          </div>
         </div>
       </a>
     </div>
 
     <!-- 뉴스레터 + 오픈채팅 -->
-    <div class="card-list" style="margin-top:10px;">
+    <div class="card-list fade-up" style="margin-top:10px;">
       <a href="#newsletter" class="card">
-        <div class="card-icon">✉️</div>
+        <div class="card-icon">
+          <iconify-icon icon="solar:letter-bold-duotone"></iconify-icon>
+        </div>
         <div class="card-body">
           <p class="card-title">뉴스레터 신청하기</p>
           <p class="card-sub">비공개 경매 정보 · 실제 낙찰 사례 · 규제 정책 변화</p>
         </div>
-        <span class="card-arrow">›</span>
+        <div class="card-arrow">
+          <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+        </div>
       </a>
       <a href="https://open.kakao.com/o/gvKkZgTe" class="card" target="_blank" rel="noopener">
-        <div class="card-icon">💬</div>
+        <div class="card-icon">
+          <iconify-icon icon="solar:users-group-rounded-bold-duotone"></iconify-icon>
+        </div>
         <div class="card-body">
           <p class="card-title">부동산 경매 오픈채팅방 입장</p>
           <p class="card-sub">무엇이든 물어보는 경매 커뮤니티 · 비번 <strong style="color:var(--ink);font-weight:700;">0153</strong></p>
         </div>
-        <span class="card-arrow">›</span>
+        <div class="card-arrow">
+          <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+        </div>
       </a>
     </div>
 
     <!-- ③ FREE RESOURCES -->
-    <div class="section">
+    <div class="section fade-up">
       <p class="section-title">무료 자료</p>
       <div class="card-list">
         <a href="https://www.auction333.co.kr/41/?q=YToxOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjt9&bmode=view&idx=170168432&t=board" class="card" target="_blank" rel="noopener">
-          <div class="card-icon">📖</div>
+          <div class="card-icon">
+            <iconify-icon icon="solar:book-2-bold-duotone"></iconify-icon>
+          </div>
           <div class="card-body">
             <p class="card-title">부동산 경매 유료 전자책 다운로드</p>
-            <span class="card-badge">전자책</span>
+            <span class="card-badge">
+              <iconify-icon icon="solar:document-bold" style="font-size:10px;"></iconify-icon>
+              전자책
+            </span>
           </div>
-          <span class="card-arrow">›</span>
+          <div class="card-arrow">
+            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          </div>
         </a>
         <a href="https://www.auction333.co.kr/41/?q=YToxOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjt9&bmode=view&idx=158062689&t=board" class="card" target="_blank" rel="noopener">
-          <div class="card-icon">📋</div>
+          <div class="card-icon">
+            <iconify-icon icon="solar:document-text-bold-duotone"></iconify-icon>
+          </div>
           <div class="card-body">
             <p class="card-title">경매 초보자도 입찰할 수 있는 물건 List</p>
-            <span class="card-badge">무료 자료</span>
+            <span class="card-badge">
+              <iconify-icon icon="solar:gift-bold" style="font-size:10px;"></iconify-icon>
+              무료 자료
+            </span>
           </div>
-          <span class="card-arrow">›</span>
+          <div class="card-arrow">
+            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          </div>
         </a>
         <a href="https://www.auction333.co.kr/41/?q=YToxOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjt9&bmode=view&idx=158060713&t=board" class="card" target="_blank" rel="noopener">
-          <div class="card-icon">💰</div>
+          <div class="card-icon">
+            <iconify-icon icon="solar:wallet-money-bold-duotone"></iconify-icon>
+          </div>
           <div class="card-body">
             <p class="card-title">1억 모으는 가계부 — 청년경매</p>
-            <span class="card-badge">무료 자료</span>
+            <span class="card-badge">
+              <iconify-icon icon="solar:gift-bold" style="font-size:10px;"></iconify-icon>
+              무료 자료
+            </span>
           </div>
-          <span class="card-arrow">›</span>
+          <div class="card-arrow">
+            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+          </div>
         </a>
       </div>
     </div>
 
     <!-- ④ LINKS -->
-    <div class="section">
+    <div class="section fade-up">
       <p class="section-title">더 알아보기</p>
       <div class="icon-grid">
         <a href="https://cafe.naver.com/youngrichinvestor" class="icon-item" target="_blank" rel="noopener">
           <div class="icon-circle naver">
-            <img src="https://cdn.simpleicons.org/naver/ffffff" alt="Naver">
+            <img src="https://cdn.simpleicons.org/naver/ffffff" alt="Naver" loading="lazy" decoding="async">
           </div>
           <span class="icon-label">카페</span>
         </a>
         <a id="review-link" href="https://cafe.naver.com/f-e/cafes/30915017/menus/16?viewType=L" class="icon-item" target="_blank" rel="noopener">
-          <div class="icon-circle">⭐</div>
+          <div class="icon-circle review">
+            <iconify-icon icon="solar:star-bold" style="font-size:22px; color:white;"></iconify-icon>
+          </div>
           <span class="icon-label">수강생 후기</span>
         </a>
         <a href="https://www.instagram.com/biddy_auction/" class="icon-item" target="_blank" rel="noopener">
           <div class="icon-circle ig">
-            <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram">
+            <img src="https://cdn.simpleicons.org/instagram/ffffff" alt="Instagram" loading="lazy" decoding="async">
           </div>
           <span class="icon-label">인스타그램</span>
         </a>
         <a href="https://www.youtube.com/@%EC%B2%AD%EB%85%84%EA%B2%BD%EB%A7%A4" class="icon-item" target="_blank" rel="noopener">
           <div class="icon-circle yt">
-            <img src="https://cdn.simpleicons.org/youtube/ffffff" alt="YouTube">
+            <img src="https://cdn.simpleicons.org/youtube/ffffff" alt="YouTube" loading="lazy" decoding="async">
           </div>
           <span class="icon-label">유튜브</span>
         </a>
         <a href="https://www.threads.com/@biddy_auction?xmt=AQF0_ZbjYfUQMLnjSoVfSIxObBWmnG-aISYF_04zZnW4ipU" class="icon-item" target="_blank" rel="noopener">
           <div class="icon-circle th">
-            <img src="https://cdn.simpleicons.org/threads/ffffff" alt="Threads">
+            <img src="https://cdn.simpleicons.org/threads/ffffff" alt="Threads" loading="lazy" decoding="async">
           </div>
           <span class="icon-label">스레드</span>
         </a>
@@ -673,11 +841,28 @@
   </footer>
 
 </div>
-  <script>
-    var reviewLink = document.getElementById('review-link');
-    if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
-      reviewLink.href = 'https://m.cafe.naver.com/ca-fe/web/cafes/30915017/menus/16';
-    }
-  </script>
+
+<script>
+  // 모바일 후기 링크
+  var reviewLink = document.getElementById('review-link');
+  if (/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+    reviewLink.href = 'https://m.cafe.naver.com/ca-fe/web/cafes/30915017/menus/16';
+  }
+
+  // 스크롤 등장 애니메이션
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(function(el, i) {
+    el.style.transitionDelay = (i * 60) + 'ms';
+    observer.observe(el);
+  });
+</script>
 </body>
 </html>
